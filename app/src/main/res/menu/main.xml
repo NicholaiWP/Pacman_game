@@ -1,0 +1,30 @@
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:context="org.example.canvasdemo.MainActivity" >
+
+    <item
+        android:id="@+id/action_newGame"
+        android:orderInCategory="100"
+        android:title="@string/newGame"
+        app:showAsAction="ifRoom" />
+
+    <item
+        android:id="@+id/action_settings"
+        android:orderInCategory="100"
+        android:title="@string/action_settings"
+        app:showAsAction="never" />
+
+    <item
+        android:id="@+id/action_pause"
+        android:orderInCategory="100"
+        android:title="@string/pauseGame"
+        app:showAsAction="never" />
+
+    <item
+        android:id="@+id/action_resume"
+        android:orderInCategory="100"
+        android:title="@string/resumeGame"
+        app:showAsAction="never" />
+
+</menu>

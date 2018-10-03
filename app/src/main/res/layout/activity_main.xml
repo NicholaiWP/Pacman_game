@@ -1,0 +1,48 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:orientation="vertical"
+    android:layout_height="match_parent"
+    tools:context="org.example.pacman.MainActivity" >
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:weightSum="100">
+
+        <TextView
+            android:id="@+id/counter"
+            android:layout_width="0dp"
+            android:textSize="16sp"
+            android:background="@color/Ivory"
+            android:gravity="center"
+            android:layout_height="match_parent"
+            android:layout_weight="50"
+            android:text="@string/time" />
+
+        <TextView
+            android:id="@+id/points"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="50"
+            android:background="@color/Ivory"
+            android:text="@string/points"
+            android:textSize="16sp" />
+
+    </LinearLayout>
+
+
+
+    <!-- Notice how the custom view is referenced here with
+  a full package path-->
+    <org.example.pacman.GameView
+        android:id="@+id/gameView"
+        android:layout_weight="1"
+        android:layout_width="match_parent"
+        android:layout_height="0dp">
+
+    </org.example.pacman.GameView>
+
+
+</LinearLayout>
