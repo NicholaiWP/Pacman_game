@@ -22,6 +22,7 @@ public class SoundManager {
     //required to store SFX
     private SoundPool pool;
 
+    //variable for the coin SFX
     private int coinPickup = -1;
 
     public SoundManager(Context context){
@@ -50,11 +51,11 @@ public class SoundManager {
 
     /**
      * Plays soundeffects based on the sonund identifier
-     * @param soundIdentifier
+     * @param soundID
      */
-    public void playSound(int soundIdentifier) {
+    public void playSound(int soundID) {
         if (sfxIsEnabled())
-            pool.play(soundIdentifier, 1, 1, 0, 0, 1);
+            pool.play(soundID, 1, 1, 0, 0, 1);
     }
 
     /**

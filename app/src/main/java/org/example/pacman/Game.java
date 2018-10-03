@@ -139,9 +139,7 @@ class Game {
         this.screenEndX = w;
     }
 
-    /**
-     * Follows the player, even SLANT, which sucks apparently.
-     */
+
     public void chasePlayer(){
             //get distance between two points
         for (int i = 0; i < ObjectManager.getPacMan().size(); i++) {
