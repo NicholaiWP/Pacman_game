@@ -44,6 +44,7 @@ public class MainActivity extends AppCompatActivity {
     //is the game running?
     private boolean running = false;
 
+
     private boolean counterRunning = false;
 
     //pacMan swiping direction enum field
@@ -198,7 +199,6 @@ public class MainActivity extends AppCompatActivity {
         public void run() {
             if (running)
             {
-                game.chasePlayer();
                 game.doCollisionCheckGhosts();
                 switch (moveDirection) {
                     case Right:
@@ -231,6 +231,14 @@ public class MainActivity extends AppCompatActivity {
 
     public void setSoundManager(SoundManager soundManager) {
         this.soundManager = soundManager;
+    }
+
+    public boolean isCounterRunning() {
+        return counterRunning;
+    }
+
+    public void setCounterRunning(boolean counterRunning) {
+        this.counterRunning = counterRunning;
     }
 
 }

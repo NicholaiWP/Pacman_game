@@ -3,6 +3,7 @@ package org.example.pacman;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Color;
 import android.widget.TextView;
 import android.widget.Toast;
 import org.example.pacman.Managers.ObjectManager;
@@ -22,7 +23,6 @@ class Game {
     private final Context context;
     private final int coinsToPickUp = 4;
     private int pacManAmount = 1;
-    private int points; //X points do we have
 
     private int timeToElapse; //counter as to how long pacMan have left
     private int elapsedTimeStart;
@@ -58,9 +58,10 @@ class Game {
     private final TextView counter;
     private int screenEndX;
     private int screenEndY;
-    private final int rightSideScreenValue = 150;
-    private final int leftSideScreenValue = 10;
 
+    private final int rightSideScreenValue = 150;
+
+    private final int leftSideScreenValue = 10;
 
     private Ghost ghost;
 
@@ -94,10 +95,9 @@ class Game {
 
     public void startGame()
     {
-        points = coinsToPickUp;
         timeToElapse = 20;
         elapsedTimeStart = timeToElapse;
-        pointsView.setText(context.getResources().getString(R.string.points, " ", points));
+        pointsView.setText(context.getResources().getString(R.string.points, " ", ObjectManager.getCoins().size()));
         counter.setText(context.getResources().getString(R.string.countDown, " ", timeToElapse));
         Vector2.dir = Vector2.bitmapDirection.Right;
         ((MainActivity) context).setMoveDirection(MainActivity.moveDirection.Zero);
@@ -128,6 +128,7 @@ class Game {
         ObjectManager.getCoins().clear();
         ObjectManager.getPacMan().clear();
         ObjectManager.setPacManSpeed(4);
+        ((MainActivity)context).setCounterRunning(false);
         startGame();
     }
 
@@ -140,6 +141,7 @@ class Game {
 
 
     public void chasePlayer(){
+
             //get distance between two points
         for (int i = 0; i < ObjectManager.getPacMan().size(); i++) {
             float dx = ObjectManager.getPacMan().get(0).getPosition().x - ghost.getPosition().x;
@@ -158,7 +160,8 @@ class Game {
      * Swipe/Touch movement
      */
     public void moveUpSwipe(){
-
+        chasePlayer();
+        ((MainActivity)context).setCounterRunning(true);
         for (int i = 0; i < ObjectManager.getPacMan().size(); i++) {
             ((MainActivity) context).setMoveDirection(MainActivity.moveDirection.UP);
             if(ObjectManager.getPacMan().get(0).getPosition().y > leftSideScreenValue) {
@@ -172,6 +175,8 @@ class Game {
     }
 
     public void moveDownSwipe(){
+        chasePlayer();
+        ((MainActivity)context).setCounterRunning(true);
         for (int i = 0; i < ObjectManager.getPacMan().size(); i++) {
             ((MainActivity) context).setMoveDirection(MainActivity.moveDirection.Down);
             if (ObjectManager.getPacMan().get(0).getPosition().y < screenEndY - rightSideScreenValue) {
@@ -184,7 +189,8 @@ class Game {
     }
 
     public void moveLeftSwipe(){
-
+        chasePlayer();
+        ((MainActivity)context).setCounterRunning(true);
         for (int i = 0; i < ObjectManager.getPacMan().size(); i++) {
             ((MainActivity) context).setMoveDirection(MainActivity.moveDirection.Left);
             if (ObjectManager.getPacMan().get(0).getPosition().x > leftSideScreenValue) {
@@ -198,6 +204,8 @@ class Game {
     }
 
     public void moveRightSwipe(){
+        chasePlayer();
+        ((MainActivity)context).setCounterRunning(true);
         for (int i = 0; i < ObjectManager.getPacMan().size(); i++) {
             ((MainActivity) context).setMoveDirection(MainActivity.moveDirection.Right);
             if (ObjectManager.getPacMan().get(0).getPosition().x < screenEndX - rightSideScreenValue) {
@@ -237,11 +245,10 @@ private void doCollisionCheckApples()
             if(ObjectManager.isPickedUp()){
                 ((MainActivity)context).getSoundManager().playSound(1);
                 winGame();
-                points--;
                 ObjectManager.setPickedUp(false);
             }
         }
-        pointsView.setText(context.getResources().getString(R.string.points, " ", points));
+        pointsView.setText(context.getResources().getString(R.string.points, " ", ObjectManager.getCoins().size()));
     }
 
     public void doCollisionCheckGhosts(){
@@ -334,7 +341,6 @@ private void doCollisionCheckApples()
             Random r = new Random();
             int s = r.nextInt(randomPosCoin.size());
             ObjectManager.getInstance().AddToListCoin(new Coin(context, randomPosCoin.get(s)));
-            points = coinsToPickUp;
         }
     }
 
@@ -350,7 +356,7 @@ private void doCollisionCheckApples()
         mToast.show();
     }
 
-    private void AddRandomPacmanLocation(){
+    private void AddRandomPacmanLocation() {
         for (int i = 0; i < pacManAmount; i++) {
             Random r = new Random();
             int s = r.nextInt(randomPacManPos.size());
@@ -359,11 +365,6 @@ private void doCollisionCheckApples()
     }
 
 
-
-    public int getPoints()
-    {
-        return points;
-    }
 
     public Bitmap getAppleCoinBitmap() {return coinBitmap; }
 
