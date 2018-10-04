@@ -10,13 +10,11 @@ public class PacMan implements Collision {
     private Vector2 position;
     private Context context;
     private Bitmap myPacBitmap;
-    private boolean dead = false;
 
     public PacMan(Context context, Vector2 position, Bitmap pacMan) {
         this.context = context;
         this.position = position;
         myPacBitmap = pacMan;
-       ObjectManager.setTag("PacMan");
     }
 
     @Override
@@ -24,7 +22,7 @@ public class PacMan implements Collision {
 
         float distanceToTarget = Vector2.distance(position, coin.getCoinPosition());
 
-        if(distanceToTarget <= distance && ObjectManager.getTag().equals("Coin")){
+        if(distanceToTarget <= distance){
 
                 ObjectManager.getInstance().RemoveFromListCoin(coin);
                 ObjectManager.setPickedUp(true);

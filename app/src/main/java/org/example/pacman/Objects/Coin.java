@@ -31,7 +31,6 @@ public class Coin {
     public Coin(Context context, Vector2 pos) {
         CoinPosition = pos;
         this.context = context;
-      ObjectManager.setTag("Coin");
 
     }
 

@@ -38,6 +38,7 @@ class Game {
 
     //bitmap of ghost enemy
     private final Bitmap ghostBitmap;
+    private Toast mToast;
 
     public Bitmap getGhostBitmapRight() {
         return ghostBitmapRight;
@@ -45,7 +46,7 @@ class Game {
 
     private final Bitmap ghostBitmapRight;
 
-    private ArrayList<Vector2> randomPosApple;
+    private ArrayList<Vector2> randomPosCoin;
     private ArrayList<Vector2> randomPacManPos;
     ArrayList<Vector2> enemyPos;
     //textview reference to points
@@ -93,6 +94,7 @@ class Game {
 
     public void startGame()
     {
+        points = coinsToPickUp;
         timeToElapse = 20;
         elapsedTimeStart = timeToElapse;
         pointsView.setText(context.getResources().getString(R.string.points, " ", points));
@@ -116,10 +118,7 @@ class Game {
     private void winGame(){
 
         if(ObjectManager.getCoins().size() == 0){
-                String win = "you won!";
-                int duration = Toast.LENGTH_SHORT;
-                Toast t =  Toast.makeText(context.getApplicationContext(),win,duration);
-                t.show();
+              showAToast("You won! Game restarted");
              ((MainActivity) context).setMoveDirection(MainActivity.moveDirection.Zero);
                restartGame();
         }
@@ -250,6 +249,7 @@ private void doCollisionCheckApples()
             ghost.OnCollisionPlayer(ObjectManager.getPacMan().get(0),100);
             if(ObjectManager.isCollidedWithEnemy()){
                 ObjectManager.setCollidedWithEnemy(false);
+               showAToast("You lost, Game restarted");
                 restartGame();
             }
         }
@@ -282,62 +282,73 @@ private void doCollisionCheckApples()
         randomPacManPos.add(new Vector2(900,300));
         randomPacManPos.add(new Vector2(900,100));
 
-        randomPosApple = new ArrayList<>();
+        randomPosCoin = new ArrayList<>();
 
-        randomPosApple.add(new Vector2(500,1280));
-        randomPosApple.add(new Vector2(500,1000));
-        randomPosApple.add(new Vector2(500,800));
-        randomPosApple.add(new Vector2(500,500));
-        randomPosApple.add(new Vector2(500,300));
-        randomPosApple.add(new Vector2(500,100));
-        randomPosApple.add(new Vector2(500,20));
+        randomPosCoin.add(new Vector2(500,1280));
+        randomPosCoin.add(new Vector2(500,1000));
+        randomPosCoin.add(new Vector2(500,800));
+        randomPosCoin.add(new Vector2(500,500));
+        randomPosCoin.add(new Vector2(500,300));
+        randomPosCoin.add(new Vector2(500,100));
+        randomPosCoin.add(new Vector2(500,20));
 
-        randomPosApple.add(new Vector2(200,1280));
-        randomPosApple.add(new Vector2(200,1000));
-        randomPosApple.add(new Vector2(200,800));
-        randomPosApple.add(new Vector2(200,500));
-        randomPosApple.add(new Vector2(200,300));
-        randomPosApple.add(new Vector2(200,100));
-        randomPosApple.add(new Vector2(200,20));
+        randomPosCoin.add(new Vector2(200,1280));
+        randomPosCoin.add(new Vector2(200,1000));
+        randomPosCoin.add(new Vector2(200,800));
+        randomPosCoin.add(new Vector2(200,500));
+        randomPosCoin.add(new Vector2(200,300));
+        randomPosCoin.add(new Vector2(200,100));
+        randomPosCoin.add(new Vector2(200,20));
 
-        randomPosApple.add(new Vector2(300,1280));
-        randomPosApple.add(new Vector2(300,1000));
-        randomPosApple.add(new Vector2(300,800));
-        randomPosApple.add(new Vector2(300,500));
-        randomPosApple.add(new Vector2(300,300));
-        randomPosApple.add(new Vector2(300,100));
-        randomPosApple.add(new Vector2(300,20));
+        randomPosCoin.add(new Vector2(300,1280));
+        randomPosCoin.add(new Vector2(300,1000));
+        randomPosCoin.add(new Vector2(300,800));
+        randomPosCoin.add(new Vector2(300,500));
+        randomPosCoin.add(new Vector2(300,300));
+        randomPosCoin.add(new Vector2(300,100));
+        randomPosCoin.add(new Vector2(300,20));
 
-        randomPosApple.add(new Vector2(700,1280));
-        randomPosApple.add(new Vector2(700,1000));
-        randomPosApple.add(new Vector2(700,800));
-        randomPosApple.add(new Vector2(700,500));
-        randomPosApple.add(new Vector2(700,300));
-        randomPosApple.add(new Vector2(700,100));
-        randomPosApple.add(new Vector2(700,20));
+        randomPosCoin.add(new Vector2(700,1280));
+        randomPosCoin.add(new Vector2(700,1000));
+        randomPosCoin.add(new Vector2(700,800));
+        randomPosCoin.add(new Vector2(700,500));
+        randomPosCoin.add(new Vector2(700,300));
+        randomPosCoin.add(new Vector2(700,100));
+        randomPosCoin.add(new Vector2(700,20));
 
-        randomPosApple.add(new Vector2(900,1280));
-        randomPosApple.add(new Vector2(900,1000));
-        randomPosApple.add(new Vector2(900,800));
-        randomPosApple.add(new Vector2(900,500));
-        randomPosApple.add(new Vector2(900,300));
-        randomPosApple.add(new Vector2(900,100));
-        randomPosApple.add(new Vector2(900,20));
+        randomPosCoin.add(new Vector2(900,1280));
+        randomPosCoin.add(new Vector2(900,1000));
+        randomPosCoin.add(new Vector2(900,800));
+        randomPosCoin.add(new Vector2(900,500));
+        randomPosCoin.add(new Vector2(900,300));
+        randomPosCoin.add(new Vector2(900,100));
+        randomPosCoin.add(new Vector2(900,20));
     }
 
     /**
      * spawns coins within bounds, coins can however, spawn on the same position :/
      */
-    //TODO coin bug sometimes idk why
+    //TODO coin bug sometimes appear, fix if time
     private void spawnCoinsRandom(){
         for (int i = 0; i < coinsToPickUp; i++) {
             Random r = new Random();
-            int s = r.nextInt(randomPosApple.size());
-            ObjectManager.getInstance().AddToListCoin(new Coin(context, randomPosApple.get(s)));
-            points = coinsToPickUp + 1;
+            int s = r.nextInt(randomPosCoin.size());
+            ObjectManager.getInstance().AddToListCoin(new Coin(context, randomPosCoin.get(s)));
+            points = coinsToPickUp;
         }
     }
 
+    /**
+     * https://stackoverflow.com/questions/6925156/how-to-avoid-a-toast-if-theres-one-toast-already-being-shown
+     * @param message
+     */
+    public void showAToast (String message){
+        if (mToast != null) {
+            mToast.cancel();
+        }
+        mToast = Toast.makeText(context, message, Toast.LENGTH_SHORT);
+        mToast.show();
+    }
 
     private void AddRandomPacmanLocation(){
         for (int i = 0; i < pacManAmount; i++) {
@@ -409,7 +420,6 @@ private void doCollisionCheckApples()
     public void setPacBitmapDown(Bitmap pacBitmapDown) {
         this.pacBitmapDown = pacBitmapDown;
     }
-
 
     public int getTimeToElapse() {
         return timeToElapse;

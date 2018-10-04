@@ -14,8 +14,7 @@ public class ObjectManager {
     }
 
     private static final ArrayList<Coin> coins = new ArrayList<>();
-
-
+    
     public static ArrayList<PacMan> getPacMan() {
         return pac;
     }
@@ -31,8 +30,6 @@ public class ObjectManager {
     }
 
     private static boolean pickedUp;
-    //Used to check up against other gameObjects.
-    private static String tag;
 
     public static int getPacManSpeed() {
         return pacManSpeed;
@@ -64,17 +61,6 @@ public class ObjectManager {
 
     public void AddToListPac(PacMan pacMan){
         ObjectManager.pac.add(pacMan);
-    }
-
-    public float getPacLocationX(PacMan pacMan){return pacMan.getPosition().x;}
-    public float getPacLocationY(PacMan pacMan){return pacMan.getPosition().y;}
-
-    public static String getTag() {
-        return tag;
-    }
-
-    public static void setTag(String tag) {
-        ObjectManager.tag = tag;
     }
 
     public static boolean isCollidedWithEnemy() {

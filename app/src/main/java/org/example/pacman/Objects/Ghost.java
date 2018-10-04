@@ -21,7 +21,6 @@ public class Ghost implements Collision{
         this.context = cont;
         this.position = position;
         this.ghostBitmap = ghostBitmap;
-        ObjectManager.setTag("Ghost");
     }
 
 
@@ -60,7 +59,7 @@ public class Ghost implements Collision{
 
         float distanceToTarget = Vector2.distance(position, pacMan.getPosition());
 
-        if(distanceToTarget <= distance && ObjectManager.getTag().equals("PacMan")){
+        if(distanceToTarget <= distance){
             ObjectManager.getInstance().RemoveFromListPac(pacMan);
             ObjectManager.setCollidedWithEnemy(true);
         }
